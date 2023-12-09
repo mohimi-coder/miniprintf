@@ -15,22 +15,24 @@
 int	ft_printf(const char *format, ...)
 {
 	int		count;
+	int		i;
 	va_list	args;
 
+	i = 0;
 	if (write(1, "", 0) == -1)
 		return (-1);
 	count = 0;
 	va_start(args, format);
-	while (*format)
+	while (format[i])
 	{
-		if (*format == '%')
+		if (format[i] == '%')
 		{
-			format++;
-			count += ft_print_format(*format, args);
+			if (format[i + 1])
+				count += ft_print_format(format[++i], args);
 		}
 		else
-			count += ft_putchar(*format);
-		format++;
+			count += ft_putchar(format[i]);
+		i++;
 	}
 	va_end(args);
 	return (count);
